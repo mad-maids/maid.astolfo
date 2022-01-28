@@ -1,7 +1,7 @@
-use std::{fs, io};
-use std::io::Error;
-use std::path::{PathBuf};
 use serde_json::Value;
+use std::io::Error;
+use std::path::PathBuf;
+use std::{fs, io};
 
 pub fn read_dir(location: String) -> Result<Vec<PathBuf>, Error> {
     let inner_location: String = format!("./timetable/{}", location);
@@ -13,6 +13,11 @@ pub fn read_dir(location: String) -> Result<Vec<PathBuf>, Error> {
 }
 
 pub fn json(locations: Result<Vec<PathBuf>, Error>) -> Value {
-    let text = serde_json::json!(locations.unwrap());
+    let text = match locations {
+        Ok(content) => serde_json::json!(content),
+        Err(error) => serde_json::json!({
+            "message": error.to_string(),
+        }),
+    };
     return text;
 }
