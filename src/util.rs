@@ -16,7 +16,7 @@ pub fn json(locations: Result<Vec<PathBuf>, Error>) -> Value {
     let text = match locations {
         Ok(content) => serde_json::json!(content),
         Err(error) => serde_json::json!({
-            "message": error.to_string(),
+            "error": error.to_string(),
         }),
     };
     return text;
