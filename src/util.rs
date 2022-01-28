@@ -1,6 +1,5 @@
 use serde_json::Value;
-use std::fs::Metadata;
-use std::io::{Error, Read};
+use std::io::Error;
 use std::{fs, io};
 
 pub fn read_dir(location: String) -> Result<Vec<String>, Error> {
@@ -12,28 +11,12 @@ pub fn read_dir(location: String) -> Result<Vec<String>, Error> {
     return entries;
 }
 
-pub fn read_file(location: String) -> String {
-    let mut s = String::new();
-    std::fs::File::open(location);
-    return s;
-}
-
-pub enum ReadContents {
-    File(String),
-    Folder(Vec<String>),
-}
-
-pub fn read(is_folder: bool, location: String) -> ReadContents {
-    return if is_folder {
-        ReadContents::Folder(read_dir(location).unwrap())
-    } else {
-        ReadContents::File(read_file(location))
+pub fn json(ctx: Result<Vec<String>, Error>) -> Value {
+    let text = match ctx {
+        Ok(content) => serde_json::json!(content),
+        Err(error) => serde_json::json!({
+            "error": error.to_string(),
+        }),
     };
-}
-
-pub fn json(ctx: ReadContents) -> Value {
-    if std::any::type_name::<ctx>() == ReadContents::File {
-
-    }
-    return serde_json::json!(ctx);
+    return text;
 }
