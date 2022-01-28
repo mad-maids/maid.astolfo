@@ -12,7 +12,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(routes::hello)
             .service(routes::echo)
-            .service(fs::Files::new("/static", ".").show_files_listing())
+            .service(fs::Files::new("/static", "./static").show_files_listing())
     })
     .bind("127.0.0.1:8080")?
     .run()
