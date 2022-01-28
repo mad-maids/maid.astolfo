@@ -13,7 +13,6 @@ async fn main() -> std::io::Result<()> {
             .service(routes::echo)
             .service(routes::timetable)
             .service(routes::timetable_arg)
-            // .route("/hey", web::get().to(routes::manual_hello))
     })
         .bind("127.0.0.1:8080")?
         .run()
