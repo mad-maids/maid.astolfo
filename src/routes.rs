@@ -1,4 +1,4 @@
-use crate::timetable;
+use crate::timetable as tt;
 
 use actix_web::{get, web, HttpResponse, Responder};
 
@@ -14,12 +14,12 @@ pub async fn timetable() -> impl Responder {
 
 #[get("/timetable/")]
 pub async fn timetable_index() -> impl Responder {
-    let tt = timetable::timetable_list("".to_owned());
+    let tt = tt::timetable_list("".to_owned());
     HttpResponse::Ok().json(tt)
 }
 
 #[get("/timetable/{path}")]
 pub async fn timetable_list(path: web::Path<String>) -> impl Responder {
-    let tt = timetable::timetable_view(path.to_string());
+    let tt = tt::timetable_view(path.to_string());
     HttpResponse::Ok().json(tt)
 }
