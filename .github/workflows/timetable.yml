@@ -18,9 +18,10 @@ jobs:
           rm -rf timetable
           mv new-timetable/data timetable
           rm -rf new-timetable
+          cd timetable
           for module in */ ; do
           cd "$module"
-          mv ./* ..
+          mv "./$module/*" ..
           cd ..
           rm -rf "$module"
           done
