@@ -20,7 +20,9 @@ jobs:
           rm -rf new-timetable
           cd timetable
           for module in */ ; do
-          mv "./$module/*" ..
+          cd "$module"
+          mv ./* ../
+          cd ..
           rm -rf "$module"
           done
           git config user.name github-actions
