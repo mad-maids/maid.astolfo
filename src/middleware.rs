@@ -1,5 +1,6 @@
 use std::{fs, io};
 use serde_json::Value;
+use actix_files::Files;
 
 pub fn timetable_list(location: String) -> Value {
     let inner_location: String = format!("./timetable/{}", location);
@@ -17,3 +18,6 @@ pub fn timetable_list(location: String) -> Value {
     return text;
 }
 
+pub fn timetable_view(location: String) {
+
+}

@@ -1,20 +1,23 @@
 use crate::middleware;
 
 use actix_web::{get, post, web, HttpResponse, Responder};
+use actix_web::http::StatusCode;
+
+const API: &str = "https://api.maid.uz";
 
 #[get("/")]
-pub async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+pub async fn index() -> impl Responder {
+    HttpResponse::Found().header("Location", API).finish()
 }
 
 #[get("/timetable")]
-pub async fn timetable_list() -> impl Responder {
+pub async fn timetable_index() -> impl Responder {
     let tt = middleware::timetable_list("".to_owned());
     HttpResponse::Ok().json(tt)
 }
 
 #[get("/timetable/{path}")]
-pub async fn timetable_file(path: web::Path<String>) -> impl Responder {
+pub async fn timetable_list(path: web::Path<String>) -> impl Responder {
     let tt = middleware::timetable_list(path.to_string());
     HttpResponse::Ok().json(tt)
 }

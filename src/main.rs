@@ -9,10 +9,9 @@ async fn main() -> std::io::Result<()> {
     println!("Running server on http://{}", "127.0.0.1:8080");
     HttpServer::new(|| {
         App::new()
-            .service(routes::hello)
-            .service(routes::echo)
+            .service(routes::index)
+            .service(routes::timetable_index)
             .service(routes::timetable_list)
-            .service(routes::timetable_file)
     })
     .bind("127.0.0.1:8080")?
     .run()
