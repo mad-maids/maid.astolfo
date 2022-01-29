@@ -8,14 +8,14 @@ pub async fn hello() -> impl Responder {
 }
 
 #[get("/timetable")]
-pub async fn timetable() -> impl Responder {
-    let tt = middleware::timetable("".to_owned());
+pub async fn timetable_list() -> impl Responder {
+    let tt = middleware::timetable_list("".to_owned());
     HttpResponse::Ok().json(tt)
 }
 
-#[get("/timetable/{path:.*}")]
-pub async fn timetable_arg(path: web::Path<String>) -> impl Responder {
-    let tt = middleware::timetable(path.to_string());
+#[get("/timetable/{path}")]
+pub async fn timetable_file(path: web::Path<String>) -> impl Responder {
+    let tt = middleware::timetable_list(path.to_string());
     HttpResponse::Ok().json(tt)
 }
 
