@@ -4,12 +4,16 @@ use actix_web::{get, web, HttpResponse, Responder};
 
 #[get("/")]
 pub async fn index() -> impl Responder {
-    HttpResponse::Found().header("Location", "https://api.maid.uz").finish()
+    HttpResponse::Found()
+        .header("Location", "https://api.maid.uz")
+        .finish()
 }
 
 #[get("/timetable")]
 pub async fn timetable() -> impl Responder {
-    HttpResponse::Found().header("Location", "https://api.maid.uz/docs/deno/soon").finish()
+    HttpResponse::Found()
+        .header("Location", "https://api.maid.uz/docs/deno/soon")
+        .finish()
 }
 
 #[get("/timetable/")]

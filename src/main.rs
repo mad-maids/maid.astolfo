@@ -1,12 +1,28 @@
-mod timetable;
 mod routes;
+mod timetable;
 
-// use actix_files as fs;
+extern crate dotenv;
+
 use actix_web::{App, HttpServer};
+use dotenv::dotenv;
+use std::env;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("Running server on http://{}", "127.0.0.1:8080");
+    dotenv().ok();
+    let target = format!(
+        "{}:{}",
+        match env::var("HOST") {
+            Ok(host) => host,
+            Err(_) => "127.0.0.1".to_owned(),
+        },
+        match env::var("PORT") {
+            Ok(port) => port.to_string(),
+            Err(_) => 8080.to_string()
+        }
+    )
+    .to_owned();
+    println!("Running server on http://{}", &target);
     HttpServer::new(|| {
         App::new()
             .service(routes::index)
@@ -14,7 +30,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::timetable_index)
             .service(routes::timetable_list)
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&target)?
     .run()
     .await
 }
