@@ -1,4 +1,4 @@
-mod middleware;
+mod timetable;
 mod routes;
 
 // use actix_files as fs;
@@ -10,6 +10,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(routes::index)
+            .service(routes::timetable)
             .service(routes::timetable_index)
             .service(routes::timetable_list)
     })
