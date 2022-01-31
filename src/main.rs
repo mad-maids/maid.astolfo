@@ -1,6 +1,7 @@
 mod routes;
-mod timetable;
 mod supabase;
+mod timetable;
+mod model;
 
 extern crate dotenv;
 
@@ -11,6 +12,7 @@ use std::env;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
+
     let target = format!(
         "{}:{}",
         match env::var("HOST") {
@@ -19,7 +21,7 @@ async fn main() -> std::io::Result<()> {
         },
         match env::var("PORT") {
             Ok(port) => port.to_string(),
-            Err(_) => 8080.to_string()
+            Err(_) => 8080.to_string(),
         }
     )
     .to_owned();

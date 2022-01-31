@@ -1,18 +1,21 @@
+use std::error;
 use postgrest::Postgrest;
 
-struct Client ();
+pub struct Dungeon {
+    pub client: Postgrest,
+}
 
-pub const CLIENT: Postgrest = Postgrest::new("https://your.postgrest.endpoint");
+impl Dungeon {
+    pub fn new() -> Dungeon {
+        Dungeon {
+            client: Postgrest::new(dotenv::var("SUPABASE_URL").unwrap())
+                .insert_header("apikey", dotenv::var("SUPABASE_KEY").unwrap()),
+        }
+    }
 
-pub async fn get() -> String {
-    let resp = CLIENT
-        .from("your_table")
-        .select("*")
-        .execute()
-        .await;
-
-    let body = resp
-        .text()
-        .await?;
-    return body;
+    pub async fn get(&self) -> Result<(), Box<dyn std::error::Error>>  {
+        let resp = self.client.from("Groups").select("*").execute().await?;
+        println!("{}", resp.text().await?);
+        Ok(())
+    }
 }
