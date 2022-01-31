@@ -1,5 +1,6 @@
 mod routes;
 mod timetable;
+mod supabase;
 
 extern crate dotenv;
 
