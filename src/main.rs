@@ -1,8 +1,10 @@
+mod health;
+mod model;
 mod routes;
 mod supabase;
 mod timetable;
-mod model;
 
+extern crate core;
 extern crate dotenv;
 
 use actix_web::{App, HttpServer};
@@ -11,8 +13,13 @@ use std::env;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // Initialiuze dotenv configurations
     dotenv().ok();
 
+    // Check for database things
+    health::health();
+
+    // Define the target of host
     let target = format!(
         "{}:{}",
         match env::var("HOST") {
@@ -25,7 +32,11 @@ async fn main() -> std::io::Result<()> {
         }
     )
     .to_owned();
+
+    // Logging the outlet
     println!("Running server on http://{}", &target);
+
+    // Creating the server
     HttpServer::new(|| {
         App::new()
             .service(routes::index)

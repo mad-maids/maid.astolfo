@@ -1,5 +1,5 @@
-use std::error;
 use postgrest::Postgrest;
+use std::error;
 
 pub struct Dungeon {
     pub client: Postgrest,
@@ -13,7 +13,7 @@ impl Dungeon {
         }
     }
 
-    pub async fn get(&self) -> Result<(), Box<dyn std::error::Error>>  {
+    pub async fn get_groups(&self) -> Result<(), Box<dyn std::error::Error>> {
         let resp = self.client.from("Groups").select("*").execute().await?;
         println!("{}", resp.text().await?);
         Ok(())
