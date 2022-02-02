@@ -1,7 +1,6 @@
 mod health;
 mod model;
 mod routes;
-mod supabase;
 mod timetable;
 
 extern crate core;
@@ -11,18 +10,14 @@ use actix_web::{App, HttpServer};
 use dotenv::dotenv;
 use log::{error, info}; // trace, warn
 use std::env;
-use crate::supabase::Dungeon;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Initialiuze dotenv configurations
+    // Initialize dotenv configurations
     dotenv().ok();
 
     // Check for database things
     health::health();
-
-    let dungeon = Dungeon::new();
-    dungeon.get_groups().await;
 
     // Define the target of host
     let target = format!(
