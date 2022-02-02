@@ -9,7 +9,9 @@ extern crate dotenv;
 
 use actix_web::{App, HttpServer};
 use dotenv::dotenv;
+use log::{error, info}; // trace, warn
 use std::env;
+use crate::supabase::Dungeon;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -18,6 +20,9 @@ async fn main() -> std::io::Result<()> {
 
     // Check for database things
     health::health();
+
+    let dungeon = Dungeon::new();
+    dungeon.get_groups().await;
 
     // Define the target of host
     let target = format!(
@@ -34,7 +39,7 @@ async fn main() -> std::io::Result<()> {
     .to_owned();
 
     // Logging the outlet
-    println!("Running server on http://{}", &target);
+    info!("Running server on http://{}", &target);
 
     // Creating the server
     HttpServer::new(|| {

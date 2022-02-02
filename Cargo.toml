@@ -2,14 +2,13 @@
 name = "maid-astolfo"
 version = "0.1.0"
 edition = "2021"
+publish = false
 readme = "readme.md"
 authors = ["UwU <uwussimo@icloud.com>"]
 homepage = "https://api.r.maid.uz/"
 documentation = "https://api.maid.uz"
 repository = "https://github.com/mad-maids/maid.astolfo/"
 license = "CC0 1.0 Universal"
-license-file = "license"
-publish = false
 
 [dependencies]
 log = "0.4.14"

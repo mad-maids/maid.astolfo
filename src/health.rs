@@ -1,5 +1,5 @@
-use std::fs;
-use std::path::Path;
+use log::{error, info};
+use std::path::Path; // trace, warn
 
 fn check(path: &str) -> bool {
     Path::new(path).exists()
@@ -7,8 +7,8 @@ fn check(path: &str) -> bool {
 
 pub fn health() -> () {
     if check("./timetable") {
-        println!("{}", "Timetable is ok")
+        info!("Timetable is ok!")
     } else {
-        panic!("Timetable doesn't exist")
+        error!("Timetable doesn't exist")
     }
 }

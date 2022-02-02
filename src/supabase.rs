@@ -1,5 +1,4 @@
 use postgrest::Postgrest;
-use std::error;
 
 pub struct Dungeon {
     pub client: Postgrest,
