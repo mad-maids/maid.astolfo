@@ -33,7 +33,7 @@
       "type": "seminar",
       "start": 13.0,
       "length": 2.0,
-      "location": "Lyceum 93"
+      "location": "New405"
     }
   ],
   "3": [
@@ -43,7 +43,7 @@
       "type": "seminar",
       "start": 14.0,
       "length": 2.0,
-      "location": "IB208 CL"
+      "location": "Lyceum 93"
     }
   ],
   "4": [
@@ -67,7 +67,7 @@
   "5": [
     {
       "name": "I, Citizen",
-      "tutor": "Sean Canavan",
+      "tutor": "Shodiya Inakhodjaeva",
       "type": "seminar",
       "start": 11.0,
       "length": 2.0,
