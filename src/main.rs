@@ -28,7 +28,7 @@ async fn main() -> std::io::Result<()> {
     },
     match env::var("PORT") {
       Ok(port) => port.to_string(),
-      Err(_) => 8080.to_string(),
+      Err(_) => 9000.to_string(),
     }
   )
   .to_owned();
