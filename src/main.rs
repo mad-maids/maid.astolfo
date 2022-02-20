@@ -1,50 +1,58 @@
+mod dungeon;
+mod errors;
 mod health;
+mod initializer;
 mod model;
 mod routes;
 mod timetable;
 
 extern crate core;
-extern crate dotenv;
 
-use actix_web::{App, HttpServer};
-use dotenv::dotenv;
+use crate::initializer::{initialize, target};
+use actix_web::{middleware, App, HttpServer};
 use log::info;
-use std::env;
 
+#[cfg(unix)]
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-  // Initialize dotenv configurations
-  dotenv().ok();
-
-  // Check for database things
-  health::health();
-
-  // Define the target of host
-  let target = format!(
-    "{}:{}",
-    match env::var("HOST") {
-      Ok(host) => host,
-      Err(_) => "127.0.0.1".to_owned(),
-    },
-    match env::var("PORT") {
-      Ok(port) => port.to_string(),
-      Err(_) => 9000.to_string(),
-    }
-  )
-  .to_owned();
+  initialize();
 
   // Logging the outlet
-  info!("Running server on http://{}", &target);
+  info!("Running server on http://{}", target());
 
   // Creating the server
   HttpServer::new(|| {
     App::new()
+      .wrap(middleware::Logger::default())
       .service(routes::index)
       .service(routes::timetable)
       .service(routes::timetable_index)
       .service(routes::timetable_list)
   })
-  .bind(&target)?
+  .bind(target())?
+  .bind_uds("/tmp/astolfo.socket")?
+  .run()
+  .await
+}
+
+#[cfg(not(unix))]
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+  initialize();
+
+  // Logging the outlet
+  info!("Running server on http://{}", target());
+
+  // Creating the server
+  HttpServer::new(|| {
+    App::new()
+      .wrap(middleware::Logger::default())
+      .service(routes::index)
+      .service(routes::timetable)
+      .service(routes::timetable_index)
+      .service(routes::timetable_list)
+  })
+  .bind(target())?
   .run()
   .await
 }

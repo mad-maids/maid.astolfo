@@ -9,6 +9,11 @@ pub async fn index() -> impl Responder {
     .finish()
 }
 
+#[get("/favicon")]
+async fn favicon() -> actix_web::Result<actix_files::NamedFile> {
+  Ok(actix_files::NamedFile::open("favicon.ico")?)
+}
+
 #[get("/timetable")]
 pub async fn timetable() -> impl Responder {
   HttpResponse::Found()
