@@ -9,14 +9,10 @@ pub fn initialize() {
   // Check for database things
   health::health();
 
-  let is_dev = format!(
-    "{}",
-    match env::var("ISDEV") {
-      Ok(host) => host,
-      Err(_) => "no".to_owned(),
-    }
-  )
-  .to_owned();
+  let is_dev = match env::var("ISDEV") {
+    Ok(host) => host,
+    Err(_) => "no".to_owned(),
+  };
 
   if is_dev == "yes" {
     println!("Server has been started in Debug mode!");
@@ -39,10 +35,9 @@ pub fn target() -> String {
       Err(_) => "127.0.0.1".to_owned(),
     },
     match env::var("PORT") {
-      Ok(port) => port.to_string(),
+      Ok(port) => port,
       Err(_) => 9000.to_string(),
     }
-  )
-  .to_owned();
-  return target;
+  );
+  target
 }

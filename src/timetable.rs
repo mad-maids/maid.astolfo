@@ -20,13 +20,12 @@ pub fn timetable_list(location: String) -> Value {
     })
     .collect::<Result<Vec<_>, io::Error>>();
 
-  let text = match entries {
+  match entries {
     Ok(content) => serde_json::json!(content),
     Err(_) => serde_json::json!({
         "error": "Database is pretty empty... Maybe some sort of error occurred?",
     }),
-  };
-  return text;
+  }
 }
 
 pub fn timetable_view(location: String) -> Value {
@@ -34,7 +33,7 @@ pub fn timetable_view(location: String) -> Value {
   let file = File::open(inner_location);
   let mut contents = String::new();
 
-  let text = match file {
+  match file {
     Ok(mut content) => {
       content.read_to_string(&mut contents).unwrap();
       serde_json::from_str(&contents).unwrap()
@@ -42,6 +41,5 @@ pub fn timetable_view(location: String) -> Value {
     Err(error) => serde_json::json!({
         "error": error.to_string(),
     }),
-  };
-  return text;
+  }
 }
