@@ -5,7 +5,7 @@ fn check(path: &str) -> bool {
   Path::new(path).exists()
 }
 
-pub fn health() -> () {
+pub fn health() {
   if check("./timetable") {
     info!("Timetable is ok!")
   } else {

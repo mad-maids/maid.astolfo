@@ -19,12 +19,12 @@ pub fn initialize() {
   .to_owned();
 
   if is_dev == "yes" {
-    println!("{}", "Server has been started in Debug mode!");
+    println!("Server has been started in Debug mode!");
     std::env::set_var("RUST_LOG", "debug");
     std::env::set_var("RUST_BACKTRACE", "full");
     env_logger::init();
   } else if is_dev == "no" {
-    println!("{}", "Server has been started in Production mode!");
+    println!("Server has been started in Production mode!");
     std::env::set_var("RUST_LOG", "info");
     std::env::set_var("RUST_BACKTRACE", "1");
   }
