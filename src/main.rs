@@ -38,7 +38,7 @@ async fn main() -> std::io::Result<()> {
 #[cfg(not(unix))]
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-  initialize();
+  initialize().await;
 
   // Logging the outlet
   info!("Running server on http://{}", target());

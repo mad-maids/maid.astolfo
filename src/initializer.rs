@@ -2,12 +2,9 @@ use crate::health;
 use dotenv::dotenv;
 use std::env;
 
-pub fn initialize() {
+pub async fn initialize() {
   // Initialize dotenv configurations
   dotenv().ok();
-
-  // Check for database things
-  health::health();
 
   let is_dev = match env::var("ISDEV") {
     Ok(host) => host,
@@ -24,6 +21,9 @@ pub fn initialize() {
     std::env::set_var("RUST_LOG", "info");
     std::env::set_var("RUST_BACKTRACE", "1");
   }
+
+  // Check for database things
+  health::health().await
 }
 
 pub fn target() -> String {
