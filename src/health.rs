@@ -7,12 +7,14 @@ fn check(path: &str) -> bool {
 }
 
 pub async fn health() {
-  let target =
-    "https://codeload.github.com/mad-maids/maid.table/zip/refs/heads/main";
   if check("./timetable") {
     info!("Timetable is ok!")
   } else {
-    error!("Timetable doesn't exist");
+    error!("Timetable doesn't exist, downloading from database...");
+
+    // Download and store timetables
+    let target =
+      "https://codeload.github.com/mad-maids/maid.table/zip/refs/heads/main";
     let mut dumpfile = tempfile::tempfile().unwrap();
     let resp = reqwest::get(target)
       .await
@@ -27,16 +29,16 @@ pub async fn health() {
     for i in 0..zip.len() {
       let mut file = zip.by_index(i).unwrap();
       let out_path = match file.enclosed_name() {
-        Some(path) => path.to_owned(),
+        Some(path) => path.to_owned().to_owned(),
         None => continue,
       };
 
       if file.name().ends_with(".json") && file.name().contains("data") {
         println!("{}", file.name());
-        let mut outfile =
-          fs::File::create(format!("./timetable/{}", out_path.to_owned()))
-            .unwrap();
-        io::copy(&mut file, &mut outfile).unwrap();
+        // let mut outfile =
+        //   fs::File::create(format!("./timetable/{}", out_path).to_string())
+        //     .unwrap();
+        // io::copy(&mut file, &mut outfile).unwrap();
       }
     }
 
