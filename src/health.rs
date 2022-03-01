@@ -1,10 +1,24 @@
 use log::{error, info};
+use serde::{Deserialize, Serialize};
+use std::io;
 use std::path::Path;
-use std::{fs, io};
 
 fn check(path: &str) -> bool {
   Path::new(path).exists()
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct Asset {
+  browser_download_url: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct GitHub {
+  assets: Vec<Asset>,
+}
+
+static APP_USER_AGENT: &str =
+  concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"),);
 
 pub async fn health() {
   if check("./timetable") {
@@ -13,10 +27,21 @@ pub async fn health() {
     error!("Timetable doesn't exist, downloading from database...");
 
     // Download and store timetables
-    let target =
-      "https://codeload.github.com/mad-maids/maid.table/zip/refs/heads/main";
+    let client = reqwest::Client::builder()
+      .user_agent(APP_USER_AGENT)
+      .build()
+      .expect("Couldn't build the client");
+    let target: GitHub = client
+      .get("https://api.github.com/repos/mad-maids/maid.table/releases/latest")
+      .send()
+      .await
+      .expect("Problems with Internet connectivity!")
+      .json()
+      .await
+      .expect("Can't convert source into json!");
+
     let mut dumpfile = tempfile::tempfile().unwrap();
-    let resp = reqwest::get(target)
+    let resp = reqwest::get(target.assets[0].browser_download_url.to_string())
       .await
       .expect("Problems with Internet connectivity!")
       .bytes()
@@ -26,29 +51,7 @@ pub async fn health() {
       .expect("Failed to copy content");
     let mut zip = zip::ZipArchive::new(dumpfile).unwrap();
 
-    for i in 0..zip.len() {
-      let mut file = zip.by_index(i).unwrap();
-      let out_path = match file.enclosed_name() {
-        Some(path) => path.to_owned().to_owned(),
-        None => continue,
-      };
-
-      if file.name().ends_with(".json") && file.name().contains("data") {
-        println!("{}", file.name());
-        // let mut outfile =
-        //   fs::File::create(format!("./timetable/{}", out_path).to_string())
-        //     .unwrap();
-        // io::copy(&mut file, &mut outfile).unwrap();
-      }
-    }
-
     // Extract files inside folder
-    // zip.extract("./timetable").expect("Couldn't extract...");
-
-    // Works only with a file
-    // copy("./timetable/maid.table-main/data", "./timetable.bak")
-    //   .expect("Can't move files");
-
-    // let mut out = File::create("timetable.zip").expect("Failed to create file");
+    zip.extract("./timetable").expect("Couldn't extract...");
   }
 }
