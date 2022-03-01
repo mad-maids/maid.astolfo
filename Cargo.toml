@@ -1,6 +1,6 @@
 [package]
 name = "astolfo"
-version = "0.6.3"
+version = "1.0.0"
 edition = "2021"
 publish = false
 readme = "readme.md"

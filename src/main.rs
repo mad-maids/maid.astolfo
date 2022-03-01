@@ -10,7 +10,7 @@ extern crate core;
 
 use crate::initializer::{initialize, target};
 use actix_web::{middleware, App, HttpServer};
-use log::info;
+// use log::info;
 
 #[cfg(unix)]
 #[actix_web::main]
@@ -41,7 +41,7 @@ async fn main() -> std::io::Result<()> {
   initialize().await;
 
   // Logging the outlet
-  info!("Running server on http://{}", target());
+  println!("Running server on http://{}", target());
 
   // Creating the server
   HttpServer::new(|| {

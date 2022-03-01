@@ -16,7 +16,7 @@ pub async fn initialize() {
     std::env::set_var("RUST_LOG", "debug");
     std::env::set_var("RUST_BACKTRACE", "full");
     env_logger::init();
-  } else if is_dev == "no" {
+  } else {
     println!("Server has been started in Production mode!");
     std::env::set_var("RUST_LOG", "info");
     std::env::set_var("RUST_BACKTRACE", "1");
