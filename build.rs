@@ -1,8 +1,8 @@
-extern crate winres;
-
 fn main() {
   #[cfg(target_os = "windows")]
   {
+    extern crate winres;
+
     let mut res = winres::WindowsResource::new();
     res.set_icon("astolfo.ico");
     res.set_language(winapi::um::winnt::MAKELANGID(
