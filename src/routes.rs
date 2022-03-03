@@ -1,6 +1,6 @@
 use crate::timetable as tt;
-
 use actix_web::{get, web, HttpResponse, Responder};
+use reqwest::StatusCode;
 
 #[get("/")]
 pub async fn index() -> impl Responder {
@@ -31,4 +31,10 @@ pub async fn timetable_index() -> impl Responder {
 pub async fn timetable_list(path: web::Path<String>) -> impl Responder {
   let tt = tt::timetable_view(path.to_string());
   HttpResponse::Ok().json(tt)
+}
+
+pub async fn not_found() -> HttpResponse {
+  HttpResponse::build(StatusCode::FOUND)
+    .append_header(("Location", "https://api.maid.uz/404"))
+    .finish()
 }

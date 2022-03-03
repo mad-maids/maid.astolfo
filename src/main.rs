@@ -9,7 +9,7 @@ mod timetable;
 extern crate core;
 
 use crate::initializer::{initialize, target};
-use actix_web::{middleware, App, HttpServer};
+use actix_web::{middleware, web, App, HttpServer};
 
 #[cfg(unix)]
 #[actix_web::main]
@@ -27,6 +27,7 @@ async fn main() -> std::io::Result<()> {
       .service(routes::timetable)
       .service(routes::timetable_index)
       .service(routes::timetable_list)
+      .default_service(web::route().to(routes::not_found))
   })
   .bind(target())?
   .bind_uds("/tmp/astolfo.socket")?
@@ -50,6 +51,7 @@ async fn main() -> std::io::Result<()> {
       .service(routes::timetable)
       .service(routes::timetable_index)
       .service(routes::timetable_list)
+      .default_service(web::route().to(routes::not_found))
   })
   .bind(target())?
   .run()
