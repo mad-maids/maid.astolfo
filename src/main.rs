@@ -51,7 +51,7 @@ async fn main() -> std::io::Result<()> {
       .service(routes::timetable)
       .service(routes::timetable_index)
       .service(routes::timetable_list)
-      .default_service(web::route().to(routes::not_found))
+      .default_service(web::route().to(errors::not_found))
   })
   .bind(target())?
   .run()

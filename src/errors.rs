@@ -1,10 +1,8 @@
-// use actix_web::http::StatusCode;
-// use actix_web::{Error, HttpResponse};
+use actix_web::http::StatusCode;
+use actix_web::HttpResponse;
 
-// pub async fn not_found() -> Result<HttpResponse, Error> {
-//   Ok(
-//     HttpResponse::build(StatusCode::OK)
-//       .content_type("text/html; charset=utf-8")
-//       .body("<h1>Error 404</h1>"),
-//   )
-// }
+pub async fn not_found() -> HttpResponse {
+  HttpResponse::build(StatusCode::FOUND)
+    .append_header(("Location", "https://api.maid.uz/404"))
+    .finish()
+}

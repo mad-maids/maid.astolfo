@@ -1,6 +1,7 @@
 use crate::timetable as tt;
 use actix_web::{get, web, HttpResponse, Responder};
-use reqwest::StatusCode;
+use std::fmt::Error;
+use std::fs;
 
 #[get("/")]
 pub async fn index() -> impl Responder {
@@ -9,10 +10,10 @@ pub async fn index() -> impl Responder {
     .finish()
 }
 
-// #[get("/favicon")]
-// async fn favicon() -> actix_web::Result<actix_files::NamedFile> {
-//   Ok(actix_files::NamedFile::open("favicon.ico")?)
-// }
+#[get("/favicon")]
+async fn favicon() -> Result<fs::NamedFile, Error> {
+  Ok(fs::NamedFile::open("astolfo.ico")?)
+}
 
 #[get("/timetable")]
 pub async fn timetable() -> impl Responder {
@@ -31,10 +32,4 @@ pub async fn timetable_index() -> impl Responder {
 pub async fn timetable_list(path: web::Path<String>) -> impl Responder {
   let tt = tt::timetable_view(path.to_string());
   HttpResponse::Ok().json(tt)
-}
-
-pub async fn not_found() -> HttpResponse {
-  HttpResponse::build(StatusCode::FOUND)
-    .append_header(("Location", "https://api.maid.uz/404"))
-    .finish()
 }
