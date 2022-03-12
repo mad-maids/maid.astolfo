@@ -1,18 +1,11 @@
 use crate::timetable as tt;
-use actix_web::{get, web, HttpResponse, Responder};
-use std::fmt::Error;
-use std::fs;
+use actix_web::{get, web, HttpResponse, Responder, Result};
 
 #[get("/")]
 pub async fn index() -> impl Responder {
   HttpResponse::Found()
     .append_header(("Location", "https://api.maid.uz"))
     .finish()
-}
-
-#[get("/favicon")]
-async fn favicon() -> Result<fs::NamedFile, Error> {
-  Ok(fs::NamedFile::open("astolfo.ico")?)
 }
 
 #[get("/timetable")]
