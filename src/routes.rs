@@ -1,5 +1,5 @@
 use crate::timetable as tt;
-use actix_web::{get, web, HttpResponse, Responder, Result};
+use actix_web::{get, web, HttpResponse, Responder};
 
 #[get("/")]
 pub async fn index() -> impl Responder {
