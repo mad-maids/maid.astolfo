@@ -1,0 +1,8 @@
+{
+  "id": 61374677,
+  "version": "v0.0.1",
+  "modules": [
+    "rooms",
+    "timetable"
+  ]
+}
