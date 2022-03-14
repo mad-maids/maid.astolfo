@@ -61,16 +61,13 @@ pub async fn health() {
         Ok(..) => info!("Seems like all modules are alright!"),
         Err(e) => {
           error!("{}", e);
-          update(target.assets.clone()).await;
-          save_config(target.clone()).await;
+          update(target.assets).await;
         }
       }
-    }
-
-    if parsed.id != target.id {
+    } else {
       warn!("Assets are outdated! Need quick update...");
       update(target.assets.clone()).await;
-      save_config(target.clone()).await;
+      save_config(target).await;
     }
   } else {
     error!("No config detected!");
