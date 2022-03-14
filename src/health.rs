@@ -69,7 +69,8 @@ pub async fn health() {
 
     if parsed.id != target.id {
       warn!("Assets are outdated! Need quick update...");
-      // update(target.assets).await;
+      update(target.assets.clone()).await;
+      save_config(target.clone()).await;
     }
   } else {
     error!("No config detected!");
