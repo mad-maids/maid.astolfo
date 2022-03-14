@@ -84,7 +84,7 @@ async fn check_modules(modules: Vec<String>) -> Result<(), &'static str> {
       info!("Module [{}] is ok", module);
     } else {
       warn!("The module [{}] is missing...", module);
-      return Err("");
+      return Err("Some modules are missing...");
     }
   };
   Ok(task)
