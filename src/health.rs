@@ -109,6 +109,8 @@ async fn update(modules: Vec<Asset>) {
     zip
       .extract(file.name.replace(".zip", ""))
       .expect("Couldn't extract...");
+
+    info!("Assets has been updated successfully!")
   }
 }
 
@@ -132,4 +134,6 @@ async fn save_config(config: GitHub) {
   file
     .write_all(config.as_bytes())
     .expect("Can't write JSON file!");
+
+  info!("New configs has been saved successfully!")
 }
