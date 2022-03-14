@@ -12,3 +12,4 @@ Cargo.lock
 
 timetable
 rooms
+config.json
