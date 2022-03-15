@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::Read;
 use std::{fs, io};
 
-pub fn timetable_list(location: String) -> Value {
-  let inner_location: String = format!("./timetable/{}", location);
+pub fn json_list(module: String, location: String) -> Value {
+  let inner_location: String = format!("./{}/{}", module, location);
   let entries = fs::read_dir(&inner_location)
     .unwrap()
     .map(|res| {
@@ -28,8 +28,8 @@ pub fn timetable_list(location: String) -> Value {
   }
 }
 
-pub fn timetable_view(location: String) -> Value {
-  let inner_location: String = format!("./timetable/{}.json", location);
+pub fn json_view(module: String, location: String) -> Value {
+  let inner_location: String = format!("./{}/{}.json", module, location);
   let file = File::open(inner_location);
   let mut contents = String::new();
 
