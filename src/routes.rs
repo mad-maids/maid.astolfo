@@ -9,18 +9,20 @@ pub async fn index() -> impl Responder {
 }
 
 #[get("/{module}")]
-pub async fn module_api(path: web::Path<String>) -> impl Responder {
+pub async fn module_api(path: web::Path<(String)>) -> impl Responder {
+  let (module) = path.into_inner();
   HttpResponse::Found()
     .append_header((
       "Location",
-      format!("https://api.maid.uz/docs/node/{}", path.to_string()),
+      format!("https://api.maid.uz/docs/node/{}", module),
     ))
     .finish()
 }
 
 #[get("/{module}/")]
-pub async fn module_index(path: web::Path<String>) -> impl Responder {
-  let tt = tt::json_list(path.to_string(), "".to_owned());
+pub async fn module_index(path: web::Path<(String)>) -> impl Responder {
+  let (module) = path.into_inner();
+  let tt = tt::json_list(module, "".to_owned());
   HttpResponse::Ok().json(tt)
 }
 
