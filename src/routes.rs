@@ -9,7 +9,7 @@ pub async fn index() -> impl Responder {
 }
 
 #[get("/{module}")]
-pub async fn module_api(path: web::Path<(String)>) -> impl Responder {
+pub async fn module_api(path: web::Path<String>) -> impl Responder {
   let (module) = path.into_inner();
   HttpResponse::Found()
     .append_header((
@@ -20,7 +20,7 @@ pub async fn module_api(path: web::Path<(String)>) -> impl Responder {
 }
 
 #[get("/{module}/")]
-pub async fn module_index(path: web::Path<(String)>) -> impl Responder {
+pub async fn module_index(path: web::Path<String>) -> impl Responder {
   let (module) = path.into_inner();
   let tt = tt::json_list(module, "".to_owned());
   HttpResponse::Ok().json(tt)
