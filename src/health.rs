@@ -66,6 +66,14 @@ pub async fn health() {
       }
     } else {
       warn!("Assets are outdated! Need quick update...");
+
+      match clean_up(parsed.modules).await {
+        Ok(..) => info!("Successfully cleaned up old modules!"),
+        Err(e) => {
+          error!("{}", e);
+        }
+      }
+
       update(target.assets.clone()).await;
       save_config(target).await;
     }
@@ -83,6 +91,19 @@ async fn check_modules(modules: Vec<String>) -> Result<(), &'static str> {
     } else {
       warn!("The module [{}] is missing...", module);
       return Err("Some modules are missing...");
+    }
+  };
+  Ok(task)
+}
+
+async fn clean_up(modules: Vec<String>) -> Result<(), &'static str> {
+  info!("Starting to cleanup old modules...");
+  let task = for module in modules {
+    if check(format!("./{}", module).as_str()) {
+      fs::remove_dir_all(module.clone()).unwrap();
+      info!("Deleted [{}] module", module);
+    } else {
+      warn!("There is no [{}] module, skipping...", module);
     }
   };
   Ok(task)
