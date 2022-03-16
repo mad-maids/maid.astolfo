@@ -23,9 +23,9 @@ async fn main() -> std::io::Result<()> {
     App::new()
       .wrap(middleware::Logger::default())
       .service(routes::index)
-      .service(routes::timetable)
-      .service(routes::timetable_index)
-      .service(routes::timetable_list)
+      .service(routes::module_api)
+      .service(routes::module_index)
+      .service(routes::module_list)
       .default_service(web::route().to(errors::not_found))
   })
   .bind(target())?
