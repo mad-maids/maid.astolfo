@@ -10,6 +10,10 @@ Cargo.lock
 **/*.rs.bk
 .env
 
+# Mac related files
+.DS_Store
+
+# Runtime files and configurations
 timetable
 rooms
 config.json
