@@ -8,7 +8,7 @@ authors = ["UwU <uwussimo@icloud.com>"]
 homepage = "https://api.r.maid.uz/"
 documentation = "https://api.maid.uz"
 repository = "https://github.com/mad-maids/maid.astolfo/"
-license = "CC0 1.0 Universal"
+license = "MIT"
 build = "build.rs"
 
 [target.'cfg(windows)'.build-dependencies]
